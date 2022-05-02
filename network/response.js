@@ -1,9 +1,27 @@
-const express = require('express');
-const config = require('../config.js');
-const app = express();
+const success = (req, res, message, status) => {
+    let statusCode = status || 200;
+    let statusMessage = message || '';
 
-// router
+    res.status(statusCode).send({
+        error: false,
+        status,
+        body: statusMessage,
+    });
+}
 
-app.listen(config.api.port, () => {
-    console.log(`Server is running on port ${config.api.port}`);
-});
+const error = (req, res, message, status) => {
+    let statusCode = status || 500;
+    let statusMessage = message || 'Internal server error';
+
+    res.status(statusCode).send({
+        error: true,
+        status,
+        body: statusMessage,
+    });
+}
+
+
+module.exports ={
+    success,
+    error
+}
